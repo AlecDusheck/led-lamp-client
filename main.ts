@@ -42,9 +42,13 @@ const staticColorAnimation = async (color: LedColor, controller: LedController) 
 
     socket.on('connect', () => console.log('Socket connected!'));
     socket.on('disconnect', () => console.log('Socket disconnect'));
-    socket.on('status', data => currentAnimation = getLedStatusByString(data));
+    socket.on('status', data => {
+        console.log('recieved raw data: + data');
+        currentAnimation = getLedStatusByString(data);
+    });
 
     while (true) {
+        console.log('restarting loop with animation: ' + currentAnimation);
         switch (currentAnimation) {
             case LedAnimation.WHITE:
                 await staticColorAnimation(WHITE, ledController);
